@@ -14,15 +14,10 @@ curl -o ~/.ssh/$ID_RSA_GPG $BASE_URL/$ID_RSA_GPG
 curl -o ~/.ssh/$ID_RSA_PUB_GPG $BASE_URL/$ID_RSA_PUB_GPG
 
 echo "MASTER KEY:"
-stty -echo
-read PASSPHRASE
-stty echo
+read -r PASSPHRASE
 
-gpg --batch --yes --passphrase "$PASSPHRASE" --decrypt ~/.ssh/id_rsa.gpg > ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
-
-gpg --batch --yes --passphrase "$PASSPHRASE" --decrypt ~/.ssh/id_rsa.pub.gpg > ~/.ssh/id_rsa.pub
-chmod 644 ~/.ssh/id_rsa.pub
+echo "$PASSPHRASE" | gpg --batch --yes --pinentry-mode loopback --passphrase "$PASSPHRASE" --output ~/.ssh/id_rsa --decrypt ~/.ssh/id_rsa.gpg
+echo "$PASSPHRASE" | gpg --batch --yes --pinentry-mode loopback --passphrase "$PASSPHRASE" --output ~/.ssh/id_rsa.pub --decrypt ~/.ssh/id_rsa.pub.gpg
 
 chmod 600 ~/.ssh/id_rsa
 chmod 644 ~/.ssh/id_rsa.pub
