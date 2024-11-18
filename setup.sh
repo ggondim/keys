@@ -14,7 +14,7 @@ curl -o ~/.ssh/$ID_RSA_GPG $BASE_URL/$ID_RSA_GPG
 curl -o ~/.ssh/$ID_RSA_PUB_GPG $BASE_URL/$ID_RSA_PUB_GPG
 
 echo "MASTER KEY:"
-read -r PASSPHRASE
+read -s PASSPHRASE < /dev/tty
 
 echo "$PASSPHRASE" | gpg --batch --yes --pinentry-mode loopback --passphrase "$PASSPHRASE" --output ~/.ssh/id_rsa --decrypt ~/.ssh/id_rsa.gpg
 echo "$PASSPHRASE" | gpg --batch --yes --pinentry-mode loopback --passphrase "$PASSPHRASE" --output ~/.ssh/id_rsa.pub --decrypt ~/.ssh/id_rsa.pub.gpg
